@@ -2,142 +2,90 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
-// 获取所有博客文章
 const posts = await getCollection('blog');
-const sortedPosts = posts.sort((a, b) => 
-  new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
-);
+const latestPosts = posts
+  .sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime())
+  .slice(0, 3);
 ---
 
-<BaseLayout title="关于 - Josephine's Blog">
-  <!-- 个人介绍区域 -->
-  <section class="mb-16">
-    <h1 class="text-3xl font-semibold mb-2">关于</h1>
-    <p class="text-dim text-sm italic mb-8">Josephine 的个人主页</p>
-
-    <div class="space-y-4 text-gray-300 leading-relaxed">
-      <p>
-        Hello! I'm <a href="https://github.com" class="border-b border-dashed border-gray-600 hover:border-gray-400 transition-colors">👋 Josephine</a>, 
-        目前是一名开发者，热爱编程与创造。
+<BaseLayout title="The Jo Journey">
+  <!-- Hero Section - Tesla 风格 -->
+  <section class="min-h-[60vh] flex flex-col justify-center -mt-12">
+    <div class="space-y-6">
+      <h1 class="text-5xl md:text-7xl font-semibold tracking-tight leading-none">
+        Josephine
+      </h1>
+      <p class="text-xl md:text-2xl text-white/50 font-light max-w-xl">
+        全栈开发者，专注于 AI 应用开发与现代 Web 技术
       </p>
-      <p>
-        我正在学习 
-        <span class="inline-flex items-center gap-1 bg-gray-800 px-2 py-0.5 rounded text-sm">☕ Java</span> 和 
-        <span class="inline-flex items-center gap-1 bg-gray-800 px-2 py-0.5 rounded text-sm">🔷 Golang</span>，
-        致力于成为一名优秀的后端工程师。
-      </p>
-      <p>
-        我也对 
-        <span class="inline-flex items-center gap-1 bg-gray-800 px-2 py-0.5 rounded text-sm">🟨 JavaScript</span>、
-        <span class="inline-flex items-center gap-1 bg-gray-800 px-2 py-0.5 rounded text-sm">🔵 TypeScript</span> 和 
-        <span class="inline-flex items-center gap-1 bg-gray-800 px-2 py-0.5 rounded text-sm">🦀 Rust</span> 
-        很感兴趣，希望能为开源社区做出贡献 🌟。
-      </p>
-      <p>
-        我热衷于创建 Web 应用 🖥️，从前端 ✨ 到后端开发 ⚙️，再到 DevOps 🚀。
-      </p>
-    </div>
-  </section>
-
-  <!-- 内容导航卡片 -->
-  <section class="mb-12">
-    <p class="text-dim mb-6">我在这个网站上分享内容 🌐 ：</p>
-    
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-      <a href="/blog" class="link-card">
-        <span class="i-lucide-newspaper text-lg opacity-60"></span>
-        <span>Blog</span>
-      </a>
-      <a href="/projects" class="link-card">
-        <span class="i-lucide-folder-git-2 text-lg opacity-60"></span>
-        <span>Projects</span>
-      </a>
-      <a href="/friends" class="link-card">
-        <span class="i-lucide-users text-lg opacity-60"></span>
-        <span>Friends</span>
-      </a>
-      <a href="/shorts" class="link-card">
-        <span class="i-lucide-pen-line text-lg opacity-60"></span>
-        <span>Shorts</span>
-      </a>
-      <a href="/life" class="link-card">
-        <span class="i-lucide-heart text-lg opacity-60"></span>
-        <span>Life</span>
-      </a>
-      <a href="/tech" class="link-card">
-        <span class="i-lucide-code-2 text-lg opacity-60"></span>
-        <span>Tech Stack Notes</span>
-      </a>
-      <a href="/today" class="link-card">
-        <span class="i-lucide-calendar text-lg opacity-60"></span>
-        <span>Today News</span>
-      </a>
-    </div>
-  </section>
-
-  <!-- 摄影区域 -->
-  <section class="mb-12">
-    <p class="text-dim mb-6">我也喜欢摄影 📸 ：</p>
-    
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-      <a href="/photos" class="link-card">
-        <span class="i-lucide-camera text-lg opacity-60"></span>
-        <span>Photography</span>
-      </a>
-      <a href="/gallery" class="link-card">
-        <span class="i-lucide-image text-lg opacity-60"></span>
-        <span>Photo Gallery</span>
-      </a>
-    </div>
-  </section>
-
-  <!-- 联系方式 -->
-  <section class="mb-12">
-    <p class="text-dim mb-4">找到我：</p>
-    <div class="flex flex-wrap gap-4">
-      <a href="https://github.com" target="_blank" class="nav-icon flex items-center gap-2 text-sm">
-        <span class="i-lucide-github"></span>
-        <span class="opacity-60 hover:opacity-100 transition-opacity">GitHub</span>
-      </a>
-      <a href="https://twitter.com" target="_blank" class="nav-icon flex items-center gap-2 text-sm">
-        <span class="i-lucide-twitter"></span>
-        <span class="opacity-60 hover:opacity-100 transition-opacity">Twitter</span>
-      </a>
-      <a href="mailto:your@email.com" class="nav-icon flex items-center gap-2 text-sm">
-        <span class="i-lucide-mail"></span>
-        <span class="opacity-60 hover:opacity-100 transition-opacity">Email</span>
-      </a>
-    </div>
-  </section>
-
-  <!-- 赞助 -->
-  <section>
-    <p class="text-dim mb-4">如果你觉得我的内容有帮助，欢迎支持我：</p>
-    <div class="flex gap-3">
-      <a href="/sponsor" class="link-card">
-        <span class="i-lucide-heart text-red-500"></span>
-        <span>Support My Blog</span>
-      </a>
-    </div>
-  </section>
-
-  <!-- 最新文章 -->
-  {sortedPosts.length > 0 && (
-    <section class="mt-16 pt-8 border-t border-gray-800">
-      <h2 class="text-xl font-medium mb-6 flex items-center gap-2">
-        <span class="i-lucide-sparkles opacity-60"></span>
-        随机推荐
-      </h2>
-      <div class="space-y-3">
-        {sortedPosts.slice(0, 3).map((post) => (
-          <a href={`/blog/${post.slug}`} class="block group">
-            <div class="flex-between py-2">
-              <span class="group-hover:opacity-100 opacity-80 transition-opacity">{post.data.title}</span>
-              <span class="text-sm text-dimmer">{post.data.pubDate.toLocaleDateString('zh-CN')}</span>
-            </div>
-          </a>
-        ))}
+      <div class="flex items-center gap-4 pt-4">
+        <a href="/blog" class="px-6 py-3 bg-white text-black text-sm font-medium rounded-full hover:bg-white/90 transition-colors">
+          阅读博客
+        </a>
+        <a href="/about" class="px-6 py-3 text-white/70 text-sm font-medium hover:text-white transition-colors">
+          了解更多 →
+        </a>
       </div>
-    </section>
-  )}
+    </div>
+  </section>
+
+  <!-- Latest Posts -->
+  <section class="py-20 border-t border-white/5">
+    <div class="flex items-center justify-between mb-12">
+      <h2 class="text-2xl font-semibold">最新文章</h2>
+      <a href="/blog" class="text-sm text-white/50 hover:text-white transition-colors">
+        查看全部 →
+      </a>
+    </div>
+    
+    <div class="space-y-1">
+      {latestPosts.map((post, index) => (
+        <a href={`/blog/${post.slug}`} class="group block py-6 border-b border-white/5 hover:border-white/10 transition-colors">
+          <div class="flex items-start justify-between gap-8">
+            <div class="flex-1">
+              <h3 class="text-xl font-medium mb-2 group-hover:text-white/80 transition-colors">
+                {post.data.title}
+              </h3>
+              <p class="text-white/40 text-sm line-clamp-1">
+                {post.data.description}
+              </p>
+            </div>
+            <time class="text-sm text-white/30 font-mono shrink-0">
+              {post.data.pubDate.toLocaleDateString('zh-CN')}
+            </time>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <!-- Projects Preview -->
+  <section class="py-20 border-t border-white/5">
+    <div class="flex items-center justify-between mb-12">
+      <h2 class="text-2xl font-semibold">项目</h2>
+      <a href="/projects" class="text-sm text-white/50 hover:text-white transition-colors">
+        查看全部 →
+      </a>
+    </div>
+    
+    <div class="grid md:grid-cols-2 gap-6">
+      <a href="https://github.com/hollipembletoncrf40-sudo/the-jo-journey" target="_blank" class="group block p-8 rounded-3xl bg-white/3 hover:bg-white/5 transition-colors">
+        <div class="flex items-start justify-between mb-4">
+          <span class="i-lucide-folder-git-2 text-2xl text-white/40"></span>
+          <span class="i-lucide-arrow-up-right text-white/20 group-hover:text-white/40 transition-colors"></span>
+        </div>
+        <h3 class="text-lg font-medium mb-2">The Jo Journey</h3>
+        <p class="text-sm text-white/40">个人博客系统，Astro + UnoCSS</p>
+      </a>
+      
+      <a href="/projects" class="group block p-8 rounded-3xl bg-white/3 hover:bg-white/5 transition-colors">
+        <div class="flex items-start justify-between mb-4">
+          <span class="i-lucide-plus text-2xl text-white/40"></span>
+          <span class="i-lucide-arrow-right text-white/20 group-hover:text-white/40 transition-colors"></span>
+        </div>
+        <h3 class="text-lg font-medium mb-2">更多项目</h3>
+        <p class="text-sm text-white/40">查看我的所有开源项目</p>
+      </a>
+    </div>
+  </section>
 </BaseLayout>

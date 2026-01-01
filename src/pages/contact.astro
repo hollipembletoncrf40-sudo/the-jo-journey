@@ -1,15 +1,15 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-// Formspree 表单端点
-// 注册 https://formspree.io 获取你的表单 ID
-const FORMSPREE_ID = 'xqeaeelp'; // 你的 Formspree ID
+const FORMSPREE_ID = 'xqeaeelp';
 ---
 
 <BaseLayout title="联系 - Josephine's Blog">
-  <section class="max-w-xl">
-    <h1 class="text-3xl font-semibold mb-2">联系</h1>
-    <p class="text-dim text-sm mb-8">有任何问题或建议？欢迎联系我</p>
+  <section class="max-w-xl mx-auto">
+    <div class="mb-16 text-center">
+      <h1 class="text-4xl md:text-5xl font-semibold mb-4">联系</h1>
+      <p class="text-lg text-white/50">有任何问题或建议？欢迎联系我</p>
+    </div>
 
     <form 
       action={`https://formspree.io/f/${FORMSPREE_ID}`}
@@ -17,83 +17,64 @@ const FORMSPREE_ID = 'xqeaeelp'; // 你的 Formspree ID
       class="space-y-6"
     >
       <div>
-        <label for="name" class="block text-sm text-dim mb-2">
-          姓名
-        </label>
+        <label for="name" class="block text-sm text-white/50 mb-2">姓名</label>
         <input 
           type="text" 
           id="name" 
           name="name" 
           required
-          class="w-full bg-[#0c0c0c] border border-gray-800 rounded-lg px-4 py-3 text-gray-200 placeholder-gray-600 focus:border-purple-500/50 focus:outline-none transition-colors"
-          placeholder="请输入您的姓名"
+          class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-white/30 focus:border-white/20 focus:outline-none transition-colors"
+          placeholder="您的姓名"
         />
       </div>
 
       <div>
-        <label for="email" class="block text-sm text-dim mb-2">
-          邮箱
-        </label>
+        <label for="email" class="block text-sm text-white/50 mb-2">邮箱</label>
         <input 
           type="email" 
           id="email" 
           name="email" 
           required
-          class="w-full bg-[#0c0c0c] border border-gray-800 rounded-lg px-4 py-3 text-gray-200 placeholder-gray-600 focus:border-purple-500/50 focus:outline-none transition-colors"
-          placeholder="请输入您的邮箱"
+          class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-white/30 focus:border-white/20 focus:outline-none transition-colors"
+          placeholder="您的邮箱"
         />
       </div>
 
       <div>
-        <label for="message" class="block text-sm text-dim mb-2">
-          留言内容
-        </label>
+        <label for="message" class="block text-sm text-white/50 mb-2">留言</label>
         <textarea 
           id="message" 
           name="message" 
           rows="5"
           required
-          class="w-full bg-[#0c0c0c] border border-gray-800 rounded-lg px-4 py-3 text-gray-200 placeholder-gray-600 focus:border-purple-500/50 focus:outline-none transition-colors resize-none"
-          placeholder="请输入您想说的话..."
+          class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-white/30 focus:border-white/20 focus:outline-none transition-colors resize-none"
+          placeholder="您想说的话..."
         ></textarea>
       </div>
 
-      <!-- 蜜罐字段防垃圾 -->
       <input type="text" name="_gotcha" style="display:none" />
 
       <button 
         type="submit" 
-        class="w-full bg-gradient-to-r from-purple-600 to-violet-600 hover:from-purple-500 hover:to-violet-500 text-white px-6 py-3 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 font-medium shadow-lg shadow-purple-500/20"
+        class="w-full bg-white text-black font-medium px-6 py-4 rounded-full hover:bg-white/90 transition-colors"
       >
-        <span class="i-lucide-send text-sm"></span>
         发送消息
       </button>
     </form>
 
-    <div class="mt-12 pt-8 border-t border-gray-800">
-      <p class="text-dim text-sm mb-4">或者通过其他方式联系我：</p>
-      <div class="flex gap-6">
-        <a href="mailto:josephine@example.com" class="flex items-center gap-2 text-sm text-gray-500 hover:text-purple-400 transition-colors">
-          <span class="i-lucide-mail"></span>
-          <span>邮件</span>
+    <div class="mt-16 pt-12 border-t border-white/5 text-center">
+      <p class="text-white/40 text-sm mb-6">或者通过其他方式联系</p>
+      <div class="flex items-center justify-center gap-8">
+        <a href="mailto:josephine@example.com" class="text-white/50 hover:text-white transition-colors">
+          <span class="i-lucide-mail text-xl"></span>
         </a>
-        <a href="https://github.com/hollipembletoncrf40-sudo" target="_blank" class="flex items-center gap-2 text-sm text-gray-500 hover:text-purple-400 transition-colors">
-          <span class="i-lucide-github"></span>
-          <span>GitHub</span>
+        <a href="https://github.com/hollipembletoncrf40-sudo" target="_blank" class="text-white/50 hover:text-white transition-colors">
+          <span class="i-lucide-github text-xl"></span>
         </a>
-        <a href="https://twitter.com" target="_blank" class="flex items-center gap-2 text-sm text-gray-500 hover:text-purple-400 transition-colors">
-          <span class="i-lucide-twitter"></span>
-          <span>Twitter</span>
+        <a href="https://twitter.com" target="_blank" class="text-white/50 hover:text-white transition-colors">
+          <span class="i-lucide-twitter text-xl"></span>
         </a>
       </div>
-    </div>
-
-    <!-- 提示信息 -->
-    <div class="mt-8 p-4 rounded-lg bg-purple-500/10 border border-purple-500/20">
-      <p class="text-sm text-purple-300 flex items-center gap-2">
-        <span class="i-lucide-info"></span>
-        提交后消息会发送到我的邮箱，我会尽快回复！
-      </p>
     </div>
   </section>
 </BaseLayout>

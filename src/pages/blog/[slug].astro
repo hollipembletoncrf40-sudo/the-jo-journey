@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import Comments from '../../components/Comments.astro';
 import { getCollection } from 'astro:content';
+import Comments from '../../components/Comments.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
@@ -15,88 +15,73 @@ const { post } = Astro.props;
 const { Content } = await post.render();
 ---
 
-<BaseLayout title={`${post.data.title} - Josephine's Blog`} description={post.data.description}>
+<BaseLayout title={`${post.data.title} - Josephine's Blog`}>
   <article class="max-w-2xl mx-auto">
-    <!-- 返回链接 -->
-    <a href="/blog" class="inline-flex items-center gap-1 text-sm text-dimmer hover:text-gray-400 transition-colors mb-8">
-      <span class="i-lucide-arrow-left text-xs"></span>
-      返回博客
-    </a>
-
-    <!-- 文章头部 -->
+    <!-- Header -->
     <header class="mb-12">
-      <div class="flex items-center gap-4 text-sm text-dimmer mb-4">
-        <time datetime={post.data.pubDate.toISOString()} class="tabular-nums">
-          {post.data.pubDate.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' })}
+      <div class="flex items-center gap-3 mb-6">
+        <time class="text-sm text-white/40 font-mono">
+          {post.data.pubDate.toLocaleDateString('zh-CN')}
         </time>
-        {post.data.updatedDate && (
-          <span class="opacity-60">
-            · 更新于 {post.data.updatedDate.toLocaleDateString('zh-CN')}
-          </span>
+        {post.data.tags && (
+          <div class="flex gap-2">
+            {post.data.tags.map((tag: string) => (
+              <span class="text-sm text-white/30">#{tag}</span>
+            ))}
+          </div>
         )}
       </div>
       
-      <h1 class="text-3xl font-semibold mb-4 leading-tight">{post.data.title}</h1>
+      <h1 class="text-3xl md:text-4xl font-semibold leading-tight mb-6">
+        {post.data.title}
+      </h1>
       
-      <p class="text-lg text-dim leading-relaxed">
+      <p class="text-lg text-white/50 leading-relaxed">
         {post.data.description}
       </p>
-      
-      {post.data.tags && post.data.tags.length > 0 && (
-        <div class="flex flex-wrap gap-2 mt-6">
-          {post.data.tags.map((tag: string) => (
-            <span class="tag">
-              {tag}
-            </span>
-          ))}
-        </div>
-      )}
     </header>
 
-    <!-- 文章内容 -->
-    <div class="prose prose-invert prose-gray max-w-none mb-16
-      prose-headings:font-medium prose-headings:text-gray-200
-      prose-p:text-gray-400 prose-p:leading-relaxed
-      prose-a:text-gray-300 prose-a:no-underline prose-a:border-b prose-a:border-dashed prose-a:border-gray-600 hover:prose-a:border-gray-400
-      prose-strong:text-gray-200 prose-strong:font-medium
-      prose-code:text-gray-300 prose-code:bg-gray-800 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm prose-code:before:content-[''] prose-code:after:content-['']
-      prose-pre:bg-[#1a1a1a] prose-pre:border prose-pre:border-gray-800
-      prose-blockquote:border-gray-700 prose-blockquote:text-gray-500
-      prose-ul:text-gray-400 prose-ol:text-gray-400
-      prose-li:marker:text-gray-600
-      prose-hr:border-gray-800
+    <!-- Content -->
+    <div class="prose prose-invert prose-lg max-w-none
+      prose-headings:font-semibold prose-headings:text-white
+      prose-p:text-white/70 prose-p:leading-relaxed
+      prose-a:text-white prose-a:underline prose-a:underline-offset-4
+      prose-strong:text-white prose-strong:font-medium
+      prose-code:text-white/80 prose-code:bg-white/5 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded
+      prose-pre:bg-white/5 prose-pre:border prose-pre:border-white/10 prose-pre:rounded-xl
+      prose-blockquote:border-white/20 prose-blockquote:text-white/60
+      prose-li:text-white/70
+      prose-hr:border-white/10
     ">
       <Content />
     </div>
 
-    <!-- 分享 -->
-    <div class="flex items-center gap-4 py-6 border-t border-b border-gray-800 mb-12">
-      <span class="text-sm text-dimmer">分享文章：</span>
-      <a 
-        href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.data.title)}&url=${encodeURIComponent(Astro.url.href)}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="nav-icon"
-        aria-label="分享到 Twitter"
-      >
-        <span class="i-lucide-twitter"></span>
-      </a>
-      <button 
-        onclick="navigator.clipboard.writeText(window.location.href); this.querySelector('span').classList.replace('i-lucide-link', 'i-lucide-check'); setTimeout(() => this.querySelector('span').classList.replace('i-lucide-check', 'i-lucide-link'), 2000)"
-        class="nav-icon"
-        aria-label="复制链接"
-      >
-        <span class="i-lucide-link"></span>
-      </button>
+    <!-- Share -->
+    <div class="mt-16 pt-8 border-t border-white/5">
+      <div class="flex items-center justify-between">
+        <a href="/blog" class="text-sm text-white/40 hover:text-white transition-colors">
+          ← 返回博客
+        </a>
+        <button 
+          id="copy-link"
+          class="text-sm text-white/40 hover:text-white transition-colors"
+        >
+          复制链接
+        </button>
+      </div>
     </div>
 
-    <!-- 评论区 -->
-    <section>
-      <h2 class="text-xl font-medium mb-6 flex items-center gap-2">
-        <span class="i-lucide-message-circle opacity-60"></span>
-        评论
-      </h2>
+    <!-- Comments -->
+    <div class="mt-16">
+      <h3 class="text-xl font-medium mb-8">评论</h3>
       <Comments />
-    </section>
+    </div>
   </article>
+  
+  <script is:inline>
+    document.getElementById('copy-link')?.addEventListener('click', async () => {
+      await navigator.clipboard.writeText(window.location.href);
+      alert('链接已复制');
+    });
+  </script>
 </BaseLayout>

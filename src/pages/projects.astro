@@ -3,14 +3,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 const projects = [
   {
-    name: '个人博客',
-    description: '使用 Astro + UnoCSS 构建的高性能博客系统',
-    link: 'https://github.com',
+    name: 'The Jo Journey',
+    description: '使用 Astro + UnoCSS 构建的高性能个人博客系统，支持评论、搜索、RSS 订阅等功能。',
+    link: 'https://github.com/hollipembletoncrf40-sudo/the-jo-journey',
     tech: ['Astro', 'UnoCSS', 'TypeScript'],
   },
   {
     name: '项目示例',
-    description: '这是一个示例项目描述',
+    description: '这是一个示例项目，展示了如何使用现代前端技术栈构建高质量的 Web 应用程序。',
     link: 'https://github.com',
     tech: ['React', 'Node.js'],
   },
@@ -19,33 +19,45 @@ const projects = [
 
 <BaseLayout title="项目 - Josephine's Blog">
   <section>
-    <h1 class="text-3xl font-semibold mb-2">项目</h1>
-    <p class="text-dim text-sm mb-8">我的开源项目和作品</p>
+    <div class="mb-16">
+      <h1 class="text-4xl md:text-5xl font-semibold mb-4">项目</h1>
+      <p class="text-lg text-white/50">我的开源项目和作品</p>
+    </div>
 
-    <div class="grid gap-4">
+    <div class="space-y-6">
       {projects.map((project) => (
-        <a href={project.link} target="_blank" rel="noopener noreferrer" class="block group">
-          <div class="border border-gray-800 rounded-lg p-5 hover:border-gray-600 hover:bg-gray-900/30 transition-all">
-            <div class="flex-between mb-2">
-              <h3 class="font-medium group-hover:text-white transition-colors flex items-center gap-2">
-                <span class="i-lucide-folder-git-2 opacity-60"></span>
-                {project.name}
-              </h3>
-              <span class="i-lucide-external-link text-sm opacity-40 group-hover:opacity-70 transition-opacity"></span>
-            </div>
-            <p class="text-sm text-dim mb-3">{project.description}</p>
-            <div class="flex gap-2">
-              {project.tech.map((t) => (
-                <span class="tag">{t}</span>
-              ))}
-            </div>
+        <a href={project.link} target="_blank" class="group block p-8 rounded-3xl bg-white/3 hover:bg-white/5 transition-colors">
+          <div class="flex items-start justify-between mb-6">
+            <span class="i-lucide-folder-git-2 text-2xl text-white/40"></span>
+            <span class="i-lucide-arrow-up-right text-white/20 group-hover:text-white/50 transition-colors"></span>
+          </div>
+          
+          <h2 class="text-xl font-medium mb-3 group-hover:text-white/90 transition-colors">
+            {project.name}
+          </h2>
+          
+          <p class="text-white/40 mb-6 leading-relaxed">
+            {project.description}
+          </p>
+          
+          <div class="flex gap-3">
+            {project.tech.map((t) => (
+              <span class="text-xs text-white/30">{t}</span>
+            ))}
           </div>
         </a>
       ))}
     </div>
 
-    <p class="text-dimmer text-sm mt-8 text-center">
-      更多项目请访问我的 <a href="https://github.com" target="_blank" class="border-b border-dashed border-gray-600 hover:border-gray-400 transition-colors">GitHub</a>
-    </p>
+    <div class="mt-16 text-center">
+      <a 
+        href="https://github.com/hollipembletoncrf40-sudo" 
+        target="_blank" 
+        class="inline-flex items-center gap-2 text-sm text-white/40 hover:text-white/70 transition-colors"
+      >
+        <span class="i-lucide-github"></span>
+        <span>在 GitHub 上查看更多</span>
+      </a>
+    </div>
   </section>
 </BaseLayout>

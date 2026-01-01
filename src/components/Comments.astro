@@ -1,18 +1,16 @@
 ---
 /**
  * Giscus 评论组件
- * 基于 GitHub Discussions
  */
 ---
 
 <div class="giscus-wrapper" id="giscus-container">
-  <div id="giscus-loading" class="text-center py-8 text-gray-500">
-    <span class="i-lucide-loader-2 text-2xl animate-spin mb-2 block"></span>
-    <p class="text-sm">加载评论中...</p>
+  <div id="giscus-loading" class="text-center py-12 text-white/30">
+    加载评论中...
   </div>
 </div>
 
-<script>
+<script is:inline>
   function loadGiscus() {
     const container = document.getElementById('giscus-container');
     const loading = document.getElementById('giscus-loading');
@@ -29,7 +27,7 @@
     script.setAttribute('data-reactions-enabled', '1');
     script.setAttribute('data-emit-metadata', '0');
     script.setAttribute('data-input-position', 'bottom');
-    script.setAttribute('data-theme', 'dark_dimmed');
+    script.setAttribute('data-theme', 'noborder_dark');
     script.setAttribute('data-lang', 'zh-CN');
     script.crossOrigin = 'anonymous';
     script.async = true;
@@ -47,17 +45,3 @@
     window.addEventListener('load', loadGiscus);
   }
 </script>
-
-<style>
-  .giscus-wrapper {
-    min-height: 200px;
-  }
-  
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
-  
-  .animate-spin {
-    animation: spin 1s linear infinite;
-  }
-</style>

@@ -20,109 +20,106 @@ const { title, description = '探索技术、分享思考的个人博客' } = As
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
     <style is:global>
-      /* 全局背景 - 点阵效果 */
       html {
-        background-color: #0a0a0a;
-        background-image: 
-          radial-gradient(circle at 1px 1px, rgba(255,255,255,0.03) 1px, transparent 0);
-        background-size: 24px 24px;
+        background-color: #000;
       }
       
-      /* 滚动条样式 */
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      
       ::-webkit-scrollbar {
-        width: 6px;
-        height: 6px;
+        width: 8px;
+        height: 8px;
       }
       ::-webkit-scrollbar-track {
         background: transparent;
       }
       ::-webkit-scrollbar-thumb {
-        background: rgba(125,125,125,0.3);
-        border-radius: 3px;
+        background: rgba(255,255,255,0.15);
+        border-radius: 4px;
       }
       ::-webkit-scrollbar-thumb:hover {
-        background: rgba(125,125,125,0.5);
+        background: rgba(255,255,255,0.25);
       }
       
-      /* 选中文字样式 */
       ::selection {
-        background: rgba(99, 102, 241, 0.3);
+        background: rgba(255,255,255,0.2);
       }
     </style>
   </head>
-  <body class="min-h-screen text-gray-200 font-sans antialiased">
+  <body class="min-h-screen bg-black text-white antialiased">
     <div class="flex flex-col min-h-screen">
-      <!-- 顶部导航栏 -->
-      <header class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-[#0a0a0a]/80 border-b border-gray-800/50">
-        <nav class="container-base h-14 flex-between">
-          <!-- Logo -->
-          <a href="/" class="text-lg font-medium opacity-90 hover:opacity-100 transition-opacity italic">
+      <!-- 导航栏 - Apple 风格 -->
+      <header class="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-b border-white/5">
+        <nav class="max-w-6xl mx-auto px-6 h-12 flex items-center justify-between">
+          <a href="/" class="text-sm font-medium text-white/90 hover:text-white transition-colors">
             The Jo Journey
           </a>
           
-          <!-- 导航链接 -->
-          <div class="flex items-center gap-6">
-            <a href="/blog" class="nav-link">博客</a>
-            <a href="/projects" class="nav-link">项目</a>
-            <a href="/about" class="nav-link">关于</a>
-            <a href="/contact" class="nav-link">联系</a>
+          <div class="flex items-center gap-8">
+            <a href="/blog" class="text-xs text-white/60 hover:text-white transition-colors">博客</a>
+            <a href="/projects" class="text-xs text-white/60 hover:text-white transition-colors">项目</a>
+            <a href="/about" class="text-xs text-white/60 hover:text-white transition-colors">关于</a>
+            <a href="/contact" class="text-xs text-white/60 hover:text-white transition-colors">联系</a>
             
-            <!-- 图标按钮组 -->
-            <div class="flex items-center gap-3 ml-2 border-l border-gray-800 pl-4">
-              <button id="search-btn" class="nav-icon" aria-label="搜索">
-                <span class="i-lucide-search text-lg"></span>
+            <div class="flex items-center gap-4 ml-4">
+              <button id="search-btn" class="text-white/40 hover:text-white transition-colors" aria-label="搜索">
+                <span class="i-lucide-search text-sm"></span>
               </button>
-              <a href="https://github.com" target="_blank" class="nav-icon" aria-label="GitHub">
-                <span class="i-lucide-github text-lg"></span>
-              </a>
-              <a href="/rss" class="nav-icon" aria-label="RSS">
-                <span class="i-lucide-rss text-lg"></span>
+              <a href="https://github.com/hollipembletoncrf40-sudo" target="_blank" class="text-white/40 hover:text-white transition-colors">
+                <span class="i-lucide-github text-sm"></span>
               </a>
             </div>
           </div>
         </nav>
       </header>
 
-      <!-- 主内容区 -->
-      <main class="flex-1 container-base pt-24 pb-16">
-        <slot />
+      <!-- 主内容 -->
+      <main class="flex-1 pt-24 pb-20">
+        <div class="max-w-4xl mx-auto px-6">
+          <slot />
+        </div>
       </main>
 
-      <!-- 页脚 -->
-      <footer class="border-t border-gray-800/50 py-8">
-        <div class="container-base flex-between text-sm text-dimmer">
-          <span>© {new Date().getFullYear()} Josephine</span>
-          <span>使用 Astro 构建</span>
+      <!-- 页脚 - 极简 -->
+      <footer class="border-t border-white/5 py-8">
+        <div class="max-w-6xl mx-auto px-6 flex items-center justify-between text-xs text-white/30">
+          <span>© {new Date().getFullYear()} Josephine. All rights reserved.</span>
+          <div class="flex items-center gap-6">
+            <a href="/rss" class="hover:text-white/60 transition-colors">RSS</a>
+            <a href="https://github.com/hollipembletoncrf40-sudo" target="_blank" class="hover:text-white/60 transition-colors">GitHub</a>
+          </div>
         </div>
       </footer>
     </div>
 
-    <!-- 搜索对话框 -->
+    <!-- 搜索 -->
     <div id="search-dialog" class="fixed inset-0 z-100 hidden">
-      <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" id="search-overlay"></div>
-      <div class="absolute top-24 left-1/2 -translate-x-1/2 w-full max-w-xl px-4">
-        <div class="bg-[#111] border border-gray-800 rounded-xl p-4 shadow-2xl">
-          <div class="flex items-center gap-3">
-            <span class="i-lucide-search text-gray-500"></span>
+      <div class="absolute inset-0 bg-black/90 backdrop-blur-xl" id="search-overlay"></div>
+      <div class="absolute top-32 left-1/2 -translate-x-1/2 w-full max-w-2xl px-6">
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-xl">
+          <div class="flex items-center gap-4">
+            <span class="i-lucide-search text-white/40"></span>
             <input 
               type="text" 
               id="search-input"
-              placeholder="搜索文章..." 
-              class="flex-1 bg-transparent border-none outline-none text-gray-200 placeholder-gray-600"
+              placeholder="搜索..." 
+              class="flex-1 bg-transparent border-none outline-none text-white text-lg placeholder-white/30"
               autofocus
             />
-            <kbd class="text-xs text-gray-600 bg-gray-800 px-2 py-1 rounded">ESC</kbd>
+            <kbd class="text-xs text-white/30 bg-white/5 px-2 py-1 rounded">ESC</kbd>
           </div>
-          <div id="search-results" class="mt-4 max-h-80 overflow-y-auto">
-            <p class="text-center text-gray-600 py-6 text-sm">输入关键词开始搜索</p>
+          <div id="search-results" class="mt-6">
+            <p class="text-center text-white/30 py-8">输入关键词开始搜索</p>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Pagefind 搜索脚本 -->
     <script is:inline>
-      // 搜索对话框控制
       const searchBtn = document.getElementById('search-btn');
       const searchDialog = document.getElementById('search-dialog');
       const searchOverlay = document.getElementById('search-overlay');
@@ -135,13 +132,11 @@ const { title, description = '探索技术、分享思考的个人博客' } = As
       async function initPagefind() {
         if (pagefindLoaded) return;
         pagefindLoaded = true;
-        
         try {
           pagefind = await import('/pagefind/pagefind.js');
           await pagefind.init();
         } catch (e) {
           pagefind = null;
-          console.log('Pagefind not available');
         }
       }
 
@@ -154,39 +149,33 @@ const { title, description = '探索技术、分享思考的个人博客' } = As
       function closeSearch() {
         searchDialog.classList.add('hidden');
         searchInput.value = '';
-        searchResults.innerHTML = '<p class="text-center text-gray-600 py-6 text-sm">输入关键词开始搜索</p>';
+        searchResults.innerHTML = '<p class="text-center text-white/30 py-8">输入关键词开始搜索</p>';
       }
 
       async function performSearch(query) {
         if (!query.trim()) {
-          searchResults.innerHTML = '<p class="text-center text-gray-600 py-6 text-sm">输入关键词开始搜索</p>';
+          searchResults.innerHTML = '<p class="text-center text-white/30 py-8">输入关键词开始搜索</p>';
           return;
         }
-
         if (!pagefind) {
-          searchResults.innerHTML = '<p class="text-center text-gray-500 py-6 text-sm">搜索功能需要部署后才能使用</p>';
+          searchResults.innerHTML = '<p class="text-center text-white/30 py-8">搜索功能需要部署后使用</p>';
           return;
         }
-
-        searchResults.innerHTML = '<p class="text-center text-gray-500 py-6 text-sm">搜索中...</p>';
-
         try {
           const search = await pagefind.search(query);
-          const results = await Promise.all(search.results.slice(0, 8).map(r => r.data()));
-
+          const results = await Promise.all(search.results.slice(0, 6).map(r => r.data()));
           if (results.length === 0) {
-            searchResults.innerHTML = '<p class="text-center text-gray-500 py-6 text-sm">没有找到相关结果</p>';
+            searchResults.innerHTML = '<p class="text-center text-white/30 py-8">没有找到结果</p>';
             return;
           }
-
           searchResults.innerHTML = results.map(result => `
-            <a href="${result.url}" class="block p-3 rounded-lg hover:bg-gray-800/50 transition-colors border-b border-gray-800/50 last:border-0">
-              <div class="font-medium text-gray-200 mb-1">${result.meta?.title || '无标题'}</div>
-              <div class="text-sm text-gray-500 line-clamp-2">${result.excerpt}</div>
+            <a href="${result.url}" class="block p-4 rounded-xl hover:bg-white/5 transition-colors">
+              <div class="text-white mb-1">${result.meta?.title || '无标题'}</div>
+              <div class="text-sm text-white/40 line-clamp-2">${result.excerpt}</div>
             </a>
           `).join('');
         } catch (e) {
-          searchResults.innerHTML = '<p class="text-center text-gray-500 py-6 text-sm">搜索出错，请稍后重试</p>';
+          searchResults.innerHTML = '<p class="text-center text-white/30 py-8">搜索出错</p>';
         }
       }
 
@@ -206,9 +195,7 @@ const { title, description = '探索技术、分享思考的个人博客' } = As
           e.preventDefault();
           openSearch();
         }
-        if (e.key === 'Escape') {
-          closeSearch();
-        }
+        if (e.key === 'Escape') closeSearch();
       });
     </script>
   </body>
