@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "postbuild": "pnpm exec pagefind --site dist",
+    "postbuild": "pnpm exec pagefind --site .vercel/output/static",
     "preview": "astro preview",
     "astro": "astro"
   },
