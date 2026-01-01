@@ -39,6 +39,9 @@ importers:
       '@types/node':
         specifier: ^25.0.3
         version: 25.0.3
+      pagefind:
+        specifier: ^1.4.0
+        version: 1.4.0
 
 packages:
 
