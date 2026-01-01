@@ -120,27 +120,88 @@ const { title, description = '探索技术、分享思考的个人博客' } = As
       </div>
     </div>
 
-    <!-- 客户端脚本 -->
-    <script>
-      // 搜索对话框
+    <!-- Pagefind 搜索脚本 -->
+    <script is:inline>
+      // 搜索对话框控制
       const searchBtn = document.getElementById('search-btn');
       const searchDialog = document.getElementById('search-dialog');
       const searchOverlay = document.getElementById('search-overlay');
       const searchInput = document.getElementById('search-input');
+      const searchResults = document.getElementById('search-results');
+
+      let pagefind = null;
+      let pagefindLoaded = false;
+
+      async function initPagefind() {
+        if (pagefindLoaded) return;
+        pagefindLoaded = true;
+        
+        try {
+          pagefind = await import('/pagefind/pagefind.js');
+          await pagefind.init();
+        } catch (e) {
+          pagefind = null;
+          console.log('Pagefind not available');
+        }
+      }
 
       function openSearch() {
-        searchDialog?.classList.remove('hidden');
-        searchInput?.focus();
+        searchDialog.classList.remove('hidden');
+        searchInput.focus();
+        initPagefind();
       }
 
       function closeSearch() {
-        searchDialog?.classList.add('hidden');
+        searchDialog.classList.add('hidden');
+        searchInput.value = '';
+        searchResults.innerHTML = '<p class="text-center text-gray-600 py-6 text-sm">输入关键词开始搜索</p>';
       }
 
-      searchBtn?.addEventListener('click', openSearch);
-      searchOverlay?.addEventListener('click', closeSearch);
+      async function performSearch(query) {
+        if (!query.trim()) {
+          searchResults.innerHTML = '<p class="text-center text-gray-600 py-6 text-sm">输入关键词开始搜索</p>';
+          return;
+        }
+
+        if (!pagefind) {
+          searchResults.innerHTML = '<p class="text-center text-gray-500 py-6 text-sm">搜索功能需要部署后才能使用</p>';
+          return;
+        }
+
+        searchResults.innerHTML = '<p class="text-center text-gray-500 py-6 text-sm">搜索中...</p>';
+
+        try {
+          const search = await pagefind.search(query);
+          const results = await Promise.all(search.results.slice(0, 8).map(r => r.data()));
+
+          if (results.length === 0) {
+            searchResults.innerHTML = '<p class="text-center text-gray-500 py-6 text-sm">没有找到相关结果</p>';
+            return;
+          }
+
+          searchResults.innerHTML = results.map(result => `
+            <a href="${result.url}" class="block p-3 rounded-lg hover:bg-gray-800/50 transition-colors border-b border-gray-800/50 last:border-0">
+              <div class="font-medium text-gray-200 mb-1">${result.meta?.title || '无标题'}</div>
+              <div class="text-sm text-gray-500 line-clamp-2">${result.excerpt}</div>
+            </a>
+          `).join('');
+        } catch (e) {
+          searchResults.innerHTML = '<p class="text-center text-gray-500 py-6 text-sm">搜索出错，请稍后重试</p>';
+        }
+      }
+
+      searchBtn.addEventListener('click', openSearch);
+      searchOverlay.addEventListener('click', closeSearch);
       
-      document.addEventListener('keydown', (e) => {
+      let debounceTimer;
+      searchInput.addEventListener('input', function(e) {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(function() {
+          performSearch(e.target.value);
+        }, 300);
+      });
+      
+      document.addEventListener('keydown', function(e) {
         if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
           e.preventDefault();
           openSearch();
