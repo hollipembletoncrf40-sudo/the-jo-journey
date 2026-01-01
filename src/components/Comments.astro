@@ -1,70 +1,63 @@
 ---
 /**
- * 评论组件
- * 
- * 目前提供两种模式：
- * 1. Giscus (需要 GitHub 配置)
- * 2. 临时占位（在配置 Giscus 之前显示）
- * 
- * 配置 Giscus 步骤：
- * 1. 创建公开 GitHub 仓库并启用 Discussions
- * 2. 安装 Giscus App: https://github.com/apps/giscus
- * 3. 获取配置: https://giscus.app/zh-CN
- * 4. 替换下方 GISCUS_ENABLED = true 并填入配置
+ * Giscus 评论组件
+ * 基于 GitHub Discussions
  */
-
-const GISCUS_ENABLED = false; // 设置为 true 启用 Giscus
 ---
 
-{GISCUS_ENABLED ? (
-  <div class="giscus-wrapper" id="giscus-container">
-    <!-- Giscus 脚本会在这里加载 -->
+<div class="giscus-wrapper" id="giscus-container">
+  <div id="giscus-loading" class="text-center py-8 text-gray-500">
+    <span class="i-lucide-loader-2 text-2xl animate-spin mb-2 block"></span>
+    <p class="text-sm">加载评论中...</p>
   </div>
-) : (
-  <!-- 临时评论区占位 -->
-  <div class="border border-gray-800 rounded-xl p-8 text-center bg-[#0a0a0a]">
-    <span class="i-lucide-message-circle text-3xl text-purple-500/50 mb-4 block"></span>
-    <h3 class="text-lg font-medium mb-2 text-gray-300">评论功能即将上线</h3>
-    <p class="text-sm text-gray-500 mb-4">
-      评论系统正在配置中，敬请期待！
-    </p>
-    <p class="text-xs text-gray-600">
-      有问题可以通过 <a href="/contact" class="text-purple-400 hover:text-purple-300 transition-colors">联系页面</a> 与我交流
-    </p>
-  </div>
-)}
+</div>
 
-{GISCUS_ENABLED && (
-  <script>
-    function loadGiscus() {
-      const container = document.getElementById('giscus-container');
-      if (!container) return;
-      
-      const script = document.createElement('script');
-      script.src = 'https://giscus.app/client.js';
-      // TODO: 替换以下配置
-      script.setAttribute('data-repo', 'YOUR_USERNAME/YOUR_REPO');
-      script.setAttribute('data-repo-id', 'YOUR_REPO_ID');
-      script.setAttribute('data-category', 'Announcements');
-      script.setAttribute('data-category-id', 'YOUR_CATEGORY_ID');
-      script.setAttribute('data-mapping', 'pathname');
-      script.setAttribute('data-strict', '0');
-      script.setAttribute('data-reactions-enabled', '1');
-      script.setAttribute('data-emit-metadata', '0');
-      script.setAttribute('data-input-position', 'top');
-      script.setAttribute('data-theme', 'dark_dimmed');
-      script.setAttribute('data-lang', 'zh-CN');
-      script.setAttribute('data-loading', 'lazy');
-      script.crossOrigin = 'anonymous';
-      script.async = true;
-      
-      container.appendChild(script);
-    }
+<script>
+  function loadGiscus() {
+    const container = document.getElementById('giscus-container');
+    const loading = document.getElementById('giscus-loading');
+    if (!container) return;
+    
+    const script = document.createElement('script');
+    script.src = 'https://giscus.app/client.js';
+    script.setAttribute('data-repo', 'hollipembletoncrf40-sudo/the-jo-journey');
+    script.setAttribute('data-repo-id', 'R_kgDOQyI37Q');
+    script.setAttribute('data-category', 'Announcements');
+    script.setAttribute('data-category-id', 'DIC_kwDOQyI37c4C0djC');
+    script.setAttribute('data-mapping', 'pathname');
+    script.setAttribute('data-strict', '0');
+    script.setAttribute('data-reactions-enabled', '1');
+    script.setAttribute('data-emit-metadata', '0');
+    script.setAttribute('data-input-position', 'bottom');
+    script.setAttribute('data-theme', 'dark_dimmed');
+    script.setAttribute('data-lang', 'zh-CN');
+    script.crossOrigin = 'anonymous';
+    script.async = true;
+    
+    script.onload = () => {
+      if (loading) loading.style.display = 'none';
+    };
+    
+    container.appendChild(script);
+  }
 
-    if (document.readyState === 'complete') {
-      loadGiscus();
-    } else {
-      window.addEventListener('load', loadGiscus);
-    }
-  </script>
-)}
+  if (document.readyState === 'complete') {
+    loadGiscus();
+  } else {
+    window.addEventListener('load', loadGiscus);
+  }
+</script>
+
+<style>
+  .giscus-wrapper {
+    min-height: 200px;
+  }
+  
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  
+  .animate-spin {
+    animation: spin 1s linear infinite;
+  }
+</style>
