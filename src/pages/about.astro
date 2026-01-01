@@ -1,0 +1,80 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="关于 - Josephine's Blog">
+  <section>
+    <h1 class="text-3xl font-semibold mb-2">关于</h1>
+    <p class="text-dim text-sm mb-8">了解更多关于我</p>
+
+    <div class="prose prose-invert max-w-none">
+      <div class="flex flex-col md:flex-row gap-8 mb-12">
+        <!-- 头像 -->
+        <div class="shrink-0">
+          <div class="w-28 h-28 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-4xl font-bold text-white shadow-lg shadow-indigo-500/20">
+            Y
+          </div>
+        </div>
+        
+        <!-- 简介 -->
+        <div class="space-y-4 text-gray-300">
+          <h2 class="text-2xl font-medium text-white">Josephine</h2>
+          <p class="text-dim">全栈开发者 / 技术爱好者 / 终身学习者</p>
+          <div class="flex gap-4">
+            <a href="https://github.com" target="_blank" class="nav-icon">
+              <span class="i-lucide-github text-xl"></span>
+            </a>
+            <a href="https://twitter.com" target="_blank" class="nav-icon">
+              <span class="i-lucide-twitter text-xl"></span>
+            </a>
+            <a href="mailto:your@email.com" class="nav-icon">
+              <span class="i-lucide-mail text-xl"></span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 技能 -->
+      <section class="mb-12">
+        <h3 class="text-lg font-medium mb-4 flex items-center gap-2">
+          <span class="i-lucide-sparkles opacity-60"></span>
+          技能专长
+        </h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div class="card-minimal text-center">
+            <span class="i-lucide-code-2 text-2xl text-blue-400 mb-2 block"></span>
+            <span class="text-sm">前端开发</span>
+          </div>
+          <div class="card-minimal text-center">
+            <span class="i-lucide-server text-2xl text-green-400 mb-2 block"></span>
+            <span class="text-sm">后端开发</span>
+          </div>
+          <div class="card-minimal text-center">
+            <span class="i-lucide-database text-2xl text-purple-400 mb-2 block"></span>
+            <span class="text-sm">数据库</span>
+          </div>
+          <div class="card-minimal text-center">
+            <span class="i-lucide-cloud text-2xl text-cyan-400 mb-2 block"></span>
+            <span class="text-sm">云服务</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 关于博客 -->
+      <section>
+        <h3 class="text-lg font-medium mb-4 flex items-center gap-2">
+          <span class="i-lucide-heart opacity-60"></span>
+          关于这个博客
+        </h3>
+        <p class="text-gray-400 leading-relaxed">
+          这个博客使用 <strong class="text-gray-200">Astro</strong> 框架构建，采用 <strong class="text-gray-200">UnoCSS</strong> 作为样式解决方案，
+          部署在 <strong class="text-gray-200">Vercel</strong> 上。博客支持评论、搜索、深色模式等功能，
+          是一个现代化的高性能静态博客系统。
+        </p>
+        <p class="text-gray-400 leading-relaxed mt-4">
+          设计灵感来自 <a href="https://antfu.me" target="_blank" class="border-b border-dashed border-gray-600 hover:border-gray-400 transition-colors">Anthony Fu</a>。
+        </p>
+      </section>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,143 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+// 获取所有博客文章
+const posts = await getCollection('blog');
+const sortedPosts = posts.sort((a, b) => 
+  new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
+);
+---
+
+<BaseLayout title="关于 - Josephine's Blog">
+  <!-- 个人介绍区域 -->
+  <section class="mb-16">
+    <h1 class="text-3xl font-semibold mb-2">关于</h1>
+    <p class="text-dim text-sm italic mb-8">Josephine 的个人主页</p>
+
+    <div class="space-y-4 text-gray-300 leading-relaxed">
+      <p>
+        Hello! I'm <a href="https://github.com" class="border-b border-dashed border-gray-600 hover:border-gray-400 transition-colors">👋 Josephine</a>, 
+        目前是一名开发者，热爱编程与创造。
+      </p>
+      <p>
+        我正在学习 
+        <span class="inline-flex items-center gap-1 bg-gray-800 px-2 py-0.5 rounded text-sm">☕ Java</span> 和 
+        <span class="inline-flex items-center gap-1 bg-gray-800 px-2 py-0.5 rounded text-sm">🔷 Golang</span>，
+        致力于成为一名优秀的后端工程师。
+      </p>
+      <p>
+        我也对 
+        <span class="inline-flex items-center gap-1 bg-gray-800 px-2 py-0.5 rounded text-sm">🟨 JavaScript</span>、
+        <span class="inline-flex items-center gap-1 bg-gray-800 px-2 py-0.5 rounded text-sm">🔵 TypeScript</span> 和 
+        <span class="inline-flex items-center gap-1 bg-gray-800 px-2 py-0.5 rounded text-sm">🦀 Rust</span> 
+        很感兴趣，希望能为开源社区做出贡献 🌟。
+      </p>
+      <p>
+        我热衷于创建 Web 应用 🖥️，从前端 ✨ 到后端开发 ⚙️，再到 DevOps 🚀。
+      </p>
+    </div>
+  </section>
+
+  <!-- 内容导航卡片 -->
+  <section class="mb-12">
+    <p class="text-dim mb-6">我在这个网站上分享内容 🌐 ：</p>
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+      <a href="/blog" class="link-card">
+        <span class="i-lucide-newspaper text-lg opacity-60"></span>
+        <span>Blog</span>
+      </a>
+      <a href="/projects" class="link-card">
+        <span class="i-lucide-folder-git-2 text-lg opacity-60"></span>
+        <span>Projects</span>
+      </a>
+      <a href="/friends" class="link-card">
+        <span class="i-lucide-users text-lg opacity-60"></span>
+        <span>Friends</span>
+      </a>
+      <a href="/shorts" class="link-card">
+        <span class="i-lucide-pen-line text-lg opacity-60"></span>
+        <span>Shorts</span>
+      </a>
+      <a href="/life" class="link-card">
+        <span class="i-lucide-heart text-lg opacity-60"></span>
+        <span>Life</span>
+      </a>
+      <a href="/tech" class="link-card">
+        <span class="i-lucide-code-2 text-lg opacity-60"></span>
+        <span>Tech Stack Notes</span>
+      </a>
+      <a href="/today" class="link-card">
+        <span class="i-lucide-calendar text-lg opacity-60"></span>
+        <span>Today News</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- 摄影区域 -->
+  <section class="mb-12">
+    <p class="text-dim mb-6">我也喜欢摄影 📸 ：</p>
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <a href="/photos" class="link-card">
+        <span class="i-lucide-camera text-lg opacity-60"></span>
+        <span>Photography</span>
+      </a>
+      <a href="/gallery" class="link-card">
+        <span class="i-lucide-image text-lg opacity-60"></span>
+        <span>Photo Gallery</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- 联系方式 -->
+  <section class="mb-12">
+    <p class="text-dim mb-4">找到我：</p>
+    <div class="flex flex-wrap gap-4">
+      <a href="https://github.com" target="_blank" class="nav-icon flex items-center gap-2 text-sm">
+        <span class="i-lucide-github"></span>
+        <span class="opacity-60 hover:opacity-100 transition-opacity">GitHub</span>
+      </a>
+      <a href="https://twitter.com" target="_blank" class="nav-icon flex items-center gap-2 text-sm">
+        <span class="i-lucide-twitter"></span>
+        <span class="opacity-60 hover:opacity-100 transition-opacity">Twitter</span>
+      </a>
+      <a href="mailto:your@email.com" class="nav-icon flex items-center gap-2 text-sm">
+        <span class="i-lucide-mail"></span>
+        <span class="opacity-60 hover:opacity-100 transition-opacity">Email</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- 赞助 -->
+  <section>
+    <p class="text-dim mb-4">如果你觉得我的内容有帮助，欢迎支持我：</p>
+    <div class="flex gap-3">
+      <a href="/sponsor" class="link-card">
+        <span class="i-lucide-heart text-red-500"></span>
+        <span>Support My Blog</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- 最新文章 -->
+  {sortedPosts.length > 0 && (
+    <section class="mt-16 pt-8 border-t border-gray-800">
+      <h2 class="text-xl font-medium mb-6 flex items-center gap-2">
+        <span class="i-lucide-sparkles opacity-60"></span>
+        随机推荐
+      </h2>
+      <div class="space-y-3">
+        {sortedPosts.slice(0, 3).map((post) => (
+          <a href={`/blog/${post.slug}`} class="block group">
+            <div class="flex-between py-2">
+              <span class="group-hover:opacity-100 opacity-80 transition-opacity">{post.data.title}</span>
+              <span class="text-sm text-dimmer">{post.data.pubDate.toLocaleDateString('zh-CN')}</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+</BaseLayout>

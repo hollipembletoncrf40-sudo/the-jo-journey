@@ -1,0 +1,86 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const rssUrl = new URL('/rss.xml', Astro.site || 'https://your-blog.vercel.app').toString();
+---
+
+<BaseLayout title="RSS 订阅 - Josephine's Blog">
+  <section class="max-w-xl mx-auto text-center">
+    <h1 class="text-3xl font-semibold mb-2">RSS 订阅</h1>
+    <p class="text-dim text-sm mb-8">通过 RSS 阅读器订阅我的博客更新</p>
+
+    <!-- 二维码区域 -->
+    <div class="card-minimal p-8 mb-8">
+      <div class="w-48 h-48 mx-auto bg-white rounded-lg p-4 mb-4">
+        <!-- 使用 QR Code API 生成二维码 -->
+        <img 
+          src={`https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(rssUrl)}`}
+          alt="RSS 订阅二维码"
+          class="w-full h-full"
+          loading="lazy"
+        />
+      </div>
+      <p class="text-dim text-sm">扫描二维码获取 RSS 链接</p>
+    </div>
+
+    <!-- RSS 链接 -->
+    <div class="card-minimal p-4 mb-8">
+      <p class="text-dimmer text-xs mb-2">RSS 订阅地址</p>
+      <div class="flex items-center gap-2 bg-gray-900 rounded-lg p-3">
+        <code class="flex-1 text-sm text-gray-300 overflow-x-auto">{rssUrl}</code>
+        <button 
+          id="copy-btn"
+          class="shrink-0 px-3 py-1 bg-gray-800 hover:bg-gray-700 rounded text-sm transition-colors"
+          onclick="navigator.clipboard.writeText(this.parentElement.querySelector('code').textContent); this.textContent = '已复制!'; setTimeout(() => this.textContent = '复制', 2000)"
+        >
+          复制
+        </button>
+      </div>
+    </div>
+
+    <!-- 使用说明 -->
+    <div class="text-left">
+      <h2 class="font-medium mb-4 flex items-center gap-2">
+        <span class="i-lucide-help-circle opacity-60"></span>
+        如何订阅？
+      </h2>
+      <ol class="space-y-3 text-sm text-dim">
+        <li class="flex gap-3">
+          <span class="shrink-0 w-6 h-6 bg-gray-800 rounded-full flex items-center justify-center text-xs">1</span>
+          <span>下载 RSS 阅读器（如 Feedly、Inoreader、NetNewsWire）</span>
+        </li>
+        <li class="flex gap-3">
+          <span class="shrink-0 w-6 h-6 bg-gray-800 rounded-full flex items-center justify-center text-xs">2</span>
+          <span>复制上方 RSS 链接或扫描二维码</span>
+        </li>
+        <li class="flex gap-3">
+          <span class="shrink-0 w-6 h-6 bg-gray-800 rounded-full flex items-center justify-center text-xs">3</span>
+          <span>在阅读器中添加订阅源</span>
+        </li>
+        <li class="flex gap-3">
+          <span class="shrink-0 w-6 h-6 bg-gray-800 rounded-full flex items-center justify-center text-xs">4</span>
+          <span>当我发布新文章时，你会收到更新通知！</span>
+        </li>
+      </ol>
+    </div>
+
+    <!-- 推荐阅读器 -->
+    <div class="mt-8 pt-8 border-t border-gray-800">
+      <p class="text-dimmer text-sm mb-4">推荐 RSS 阅读器</p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="https://feedly.com" target="_blank" class="link-card text-sm">
+          <span>Feedly</span>
+          <span class="i-lucide-external-link text-xs opacity-40"></span>
+        </a>
+        <a href="https://www.inoreader.com" target="_blank" class="link-card text-sm">
+          <span>Inoreader</span>
+          <span class="i-lucide-external-link text-xs opacity-40"></span>
+        </a>
+        <a href="https://netnewswire.com" target="_blank" class="link-card text-sm">
+          <span>NetNewsWire</span>
+          <span class="i-lucide-external-link text-xs opacity-40"></span>
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

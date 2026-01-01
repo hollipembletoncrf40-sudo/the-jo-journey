@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const friends = [
+  {
+    name: '示例友链',
+    description: '这是一个示例友链描述',
+    link: 'https://example.com',
+    avatar: '🌐',
+  },
+];
+---
+
+<BaseLayout title="友链 - Josephine's Blog">
+  <section>
+    <h1 class="text-3xl font-semibold mb-2">友链</h1>
+    <p class="text-dim text-sm mb-8">我的朋友们</p>
+
+    <div class="grid sm:grid-cols-2 gap-4">
+      {friends.map((friend) => (
+        <a href={friend.link} target="_blank" rel="noopener noreferrer" class="link-card">
+          <span class="text-2xl">{friend.avatar}</span>
+          <div>
+            <h3 class="font-medium">{friend.name}</h3>
+            <p class="text-sm text-dimmer">{friend.description}</p>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <div class="mt-12 p-6 border border-dashed border-gray-800 rounded-lg text-center">
+      <p class="text-dim mb-2">想要交换友链？</p>
+      <a href="/contact" class="text-sm border-b border-dashed border-gray-600 hover:border-gray-400 transition-colors">联系我</a>
+    </div>
+  </section>
+</BaseLayout>

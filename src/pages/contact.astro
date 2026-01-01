@@ -1,0 +1,106 @@
+---
+export const prerender = false; // 启用 SSR 处理表单
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+let message = '';
+let isSuccess = false;
+
+if (Astro.request.method === 'POST') {
+  try {
+    const formData = await Astro.request.formData();
+    const name = formData.get('name');
+    const email = formData.get('email');
+    const content = formData.get('message');
+    
+    console.log('收到联系表单:', { name, email, content });
+    
+    message = '消息发送成功！我会尽快回复您。';
+    isSuccess = true;
+  } catch (error) {
+    message = '发送失败，请稍后重试。';
+    isSuccess = false;
+  }
+}
+---
+
+<BaseLayout title="联系 - Josephine's Blog">
+  <section class="max-w-xl">
+    <h1 class="text-3xl font-semibold mb-2">联系</h1>
+    <p class="text-dim text-sm mb-8">有任何问题或建议？欢迎联系我</p>
+
+    {message && (
+      <div class={`p-4 rounded-lg mb-6 border ${isSuccess ? 'border-green-800 bg-green-900/20 text-green-400' : 'border-red-800 bg-red-900/20 text-red-400'}`}>
+        <span class={`${isSuccess ? 'i-lucide-check-circle' : 'i-lucide-x-circle'} mr-2`}></span>
+        {message}
+      </div>
+    )}
+
+    <form method="POST" class="space-y-6">
+      <div>
+        <label for="name" class="block text-sm text-dim mb-2">
+          姓名
+        </label>
+        <input 
+          type="text" 
+          id="name" 
+          name="name" 
+          required
+          class="w-full bg-transparent border border-gray-800 rounded-lg px-4 py-3 text-gray-200 placeholder-gray-600 focus:border-gray-600 focus:outline-none transition-colors"
+          placeholder="请输入您的姓名"
+        />
+      </div>
+
+      <div>
+        <label for="email" class="block text-sm text-dim mb-2">
+          邮箱
+        </label>
+        <input 
+          type="email" 
+          id="email" 
+          name="email" 
+          required
+          class="w-full bg-transparent border border-gray-800 rounded-lg px-4 py-3 text-gray-200 placeholder-gray-600 focus:border-gray-600 focus:outline-none transition-colors"
+          placeholder="请输入您的邮箱"
+        />
+      </div>
+
+      <div>
+        <label for="message" class="block text-sm text-dim mb-2">
+          留言内容
+        </label>
+        <textarea 
+          id="message" 
+          name="message" 
+          rows="5"
+          required
+          class="w-full bg-transparent border border-gray-800 rounded-lg px-4 py-3 text-gray-200 placeholder-gray-600 focus:border-gray-600 focus:outline-none transition-colors resize-none"
+          placeholder="请输入您想说的话..."
+        ></textarea>
+      </div>
+
+      <button type="submit" class="w-full bg-gray-800 hover:bg-gray-700 text-gray-200 px-6 py-3 rounded-lg transition-colors flex items-center justify-center gap-2">
+        <span class="i-lucide-send text-sm"></span>
+        发送消息
+      </button>
+    </form>
+
+    <div class="mt-12 pt-8 border-t border-gray-800">
+      <p class="text-dim text-sm mb-4">或者通过其他方式联系我：</p>
+      <div class="flex gap-6">
+        <a href="mailto:your@email.com" class="flex items-center gap-2 text-sm opacity-60 hover:opacity-100 transition-opacity">
+          <span class="i-lucide-mail"></span>
+          <span>邮件</span>
+        </a>
+        <a href="https://github.com" target="_blank" class="flex items-center gap-2 text-sm opacity-60 hover:opacity-100 transition-opacity">
+          <span class="i-lucide-github"></span>
+          <span>GitHub</span>
+        </a>
+        <a href="https://twitter.com" target="_blank" class="flex items-center gap-2 text-sm opacity-60 hover:opacity-100 transition-opacity">
+          <span class="i-lucide-twitter"></span>
+          <span>Twitter</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

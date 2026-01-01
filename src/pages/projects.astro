@@ -1,0 +1,51 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const projects = [
+  {
+    name: '个人博客',
+    description: '使用 Astro + UnoCSS 构建的高性能博客系统',
+    link: 'https://github.com',
+    tech: ['Astro', 'UnoCSS', 'TypeScript'],
+  },
+  {
+    name: '项目示例',
+    description: '这是一个示例项目描述',
+    link: 'https://github.com',
+    tech: ['React', 'Node.js'],
+  },
+];
+---
+
+<BaseLayout title="项目 - Josephine's Blog">
+  <section>
+    <h1 class="text-3xl font-semibold mb-2">项目</h1>
+    <p class="text-dim text-sm mb-8">我的开源项目和作品</p>
+
+    <div class="grid gap-4">
+      {projects.map((project) => (
+        <a href={project.link} target="_blank" rel="noopener noreferrer" class="block group">
+          <div class="border border-gray-800 rounded-lg p-5 hover:border-gray-600 hover:bg-gray-900/30 transition-all">
+            <div class="flex-between mb-2">
+              <h3 class="font-medium group-hover:text-white transition-colors flex items-center gap-2">
+                <span class="i-lucide-folder-git-2 opacity-60"></span>
+                {project.name}
+              </h3>
+              <span class="i-lucide-external-link text-sm opacity-40 group-hover:opacity-70 transition-opacity"></span>
+            </div>
+            <p class="text-sm text-dim mb-3">{project.description}</p>
+            <div class="flex gap-2">
+              {project.tech.map((t) => (
+                <span class="tag">{t}</span>
+              ))}
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <p class="text-dimmer text-sm mt-8 text-center">
+      更多项目请访问我的 <a href="https://github.com" target="_blank" class="border-b border-dashed border-gray-600 hover:border-gray-400 transition-colors">GitHub</a>
+    </p>
+  </section>
+</BaseLayout>
