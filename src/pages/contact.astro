@@ -1,27 +1,9 @@
 ---
-export const prerender = false; // 启用 SSR 处理表单
-
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-let message = '';
-let isSuccess = false;
-
-if (Astro.request.method === 'POST') {
-  try {
-    const formData = await Astro.request.formData();
-    const name = formData.get('name');
-    const email = formData.get('email');
-    const content = formData.get('message');
-    
-    console.log('收到联系表单:', { name, email, content });
-    
-    message = '消息发送成功！我会尽快回复您。';
-    isSuccess = true;
-  } catch (error) {
-    message = '发送失败，请稍后重试。';
-    isSuccess = false;
-  }
-}
+// Formspree 表单端点
+// 注册 https://formspree.io 获取你的表单 ID
+const FORMSPREE_ID = 'xqeaeelp'; // 你的 Formspree ID
 ---
 
 <BaseLayout title="联系 - Josephine's Blog">
@@ -29,14 +11,11 @@ if (Astro.request.method === 'POST') {
     <h1 class="text-3xl font-semibold mb-2">联系</h1>
     <p class="text-dim text-sm mb-8">有任何问题或建议？欢迎联系我</p>
 
-    {message && (
-      <div class={`p-4 rounded-lg mb-6 border ${isSuccess ? 'border-green-800 bg-green-900/20 text-green-400' : 'border-red-800 bg-red-900/20 text-red-400'}`}>
-        <span class={`${isSuccess ? 'i-lucide-check-circle' : 'i-lucide-x-circle'} mr-2`}></span>
-        {message}
-      </div>
-    )}
-
-    <form method="POST" class="space-y-6">
+    <form 
+      action={`https://formspree.io/f/${FORMSPREE_ID}`}
+      method="POST"
+      class="space-y-6"
+    >
       <div>
         <label for="name" class="block text-sm text-dim mb-2">
           姓名
@@ -46,7 +25,7 @@ if (Astro.request.method === 'POST') {
           id="name" 
           name="name" 
           required
-          class="w-full bg-transparent border border-gray-800 rounded-lg px-4 py-3 text-gray-200 placeholder-gray-600 focus:border-gray-600 focus:outline-none transition-colors"
+          class="w-full bg-[#0c0c0c] border border-gray-800 rounded-lg px-4 py-3 text-gray-200 placeholder-gray-600 focus:border-purple-500/50 focus:outline-none transition-colors"
           placeholder="请输入您的姓名"
         />
       </div>
@@ -60,7 +39,7 @@ if (Astro.request.method === 'POST') {
           id="email" 
           name="email" 
           required
-          class="w-full bg-transparent border border-gray-800 rounded-lg px-4 py-3 text-gray-200 placeholder-gray-600 focus:border-gray-600 focus:outline-none transition-colors"
+          class="w-full bg-[#0c0c0c] border border-gray-800 rounded-lg px-4 py-3 text-gray-200 placeholder-gray-600 focus:border-purple-500/50 focus:outline-none transition-colors"
           placeholder="请输入您的邮箱"
         />
       </div>
@@ -74,12 +53,18 @@ if (Astro.request.method === 'POST') {
           name="message" 
           rows="5"
           required
-          class="w-full bg-transparent border border-gray-800 rounded-lg px-4 py-3 text-gray-200 placeholder-gray-600 focus:border-gray-600 focus:outline-none transition-colors resize-none"
+          class="w-full bg-[#0c0c0c] border border-gray-800 rounded-lg px-4 py-3 text-gray-200 placeholder-gray-600 focus:border-purple-500/50 focus:outline-none transition-colors resize-none"
           placeholder="请输入您想说的话..."
         ></textarea>
       </div>
 
-      <button type="submit" class="w-full bg-gray-800 hover:bg-gray-700 text-gray-200 px-6 py-3 rounded-lg transition-colors flex items-center justify-center gap-2">
+      <!-- 蜜罐字段防垃圾 -->
+      <input type="text" name="_gotcha" style="display:none" />
+
+      <button 
+        type="submit" 
+        class="w-full bg-gradient-to-r from-purple-600 to-violet-600 hover:from-purple-500 hover:to-violet-500 text-white px-6 py-3 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 font-medium shadow-lg shadow-purple-500/20"
+      >
         <span class="i-lucide-send text-sm"></span>
         发送消息
       </button>
@@ -88,19 +73,27 @@ if (Astro.request.method === 'POST') {
     <div class="mt-12 pt-8 border-t border-gray-800">
       <p class="text-dim text-sm mb-4">或者通过其他方式联系我：</p>
       <div class="flex gap-6">
-        <a href="mailto:your@email.com" class="flex items-center gap-2 text-sm opacity-60 hover:opacity-100 transition-opacity">
+        <a href="mailto:josephine@example.com" class="flex items-center gap-2 text-sm text-gray-500 hover:text-purple-400 transition-colors">
           <span class="i-lucide-mail"></span>
           <span>邮件</span>
         </a>
-        <a href="https://github.com" target="_blank" class="flex items-center gap-2 text-sm opacity-60 hover:opacity-100 transition-opacity">
+        <a href="https://github.com/hollipembletoncrf40-sudo" target="_blank" class="flex items-center gap-2 text-sm text-gray-500 hover:text-purple-400 transition-colors">
           <span class="i-lucide-github"></span>
           <span>GitHub</span>
         </a>
-        <a href="https://twitter.com" target="_blank" class="flex items-center gap-2 text-sm opacity-60 hover:opacity-100 transition-opacity">
+        <a href="https://twitter.com" target="_blank" class="flex items-center gap-2 text-sm text-gray-500 hover:text-purple-400 transition-colors">
           <span class="i-lucide-twitter"></span>
           <span>Twitter</span>
         </a>
       </div>
+    </div>
+
+    <!-- 提示信息 -->
+    <div class="mt-8 p-4 rounded-lg bg-purple-500/10 border border-purple-500/20">
+      <p class="text-sm text-purple-300 flex items-center gap-2">
+        <span class="i-lucide-info"></span>
+        提交后消息会发送到我的邮箱，我会尽快回复！
+      </p>
     </div>
   </section>
 </BaseLayout>
